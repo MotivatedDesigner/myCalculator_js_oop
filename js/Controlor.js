@@ -11,45 +11,71 @@ export default class Controlor{
   }
 
   initialize = () => {
-    // this.operatorButtons.forEach( 
-    //   operator => operator.addEventListener('click', this.inputOperatorHandler) 
-    // )
+    this.operatorButtons.forEach( 
+      operator => operator.addEventListener('click', this.inputOperatorHandler) 
+    )
     this.numberButtons.forEach( 
       number => number.addEventListener('click', this.inputNumberHandler) 
     )
-    // this.evaluateButton.addEventListener('click', this.calculator.evaluateHandler) 
-    // this.clearButton.addEventListener('click', this.clearState) 
+    this.evaluateButton.addEventListener('click', this.evaluateHandler) 
+    this.clearButton.addEventListener('click', this.clearHandler) 
     // document.addEventListener('keydown', this.keyboardHandler)
   }
 
   inputNumberHandler = (event) => {
-    switch(calculator.getState()) {
+    switch(this.calculator.getState()) {
       case 'clear':
         this.enableControlls()
-        calculator.setState('get-operand1')
-        calculator.operand1 = event.target.value
-        .value = this.operand1
+        this.calculator.setState('get-operand1')
+        this.display.displayResult(this.calculator.operand1 = event.target.value)
         break
       case 'get-operand1':
-        this.operand1 += event.target.value
-        document.getElementById('result').value = this.operand1
+        this.display.displayResult(this.calculator.operand1 += event.target.value)
         break
       case 'get-operator':
-        this.state = 'get-operand2'
-        this.operand2 = event.target.value
-        document.getElementById('result').value = this.operand2
+        this.calculator.setState('get-operand2')
+        this.display.displayResult(this.calculator.operand2 = event.target.value)
         break
       case 'get-operand2':
-        this.operand2 += event.target.value
-        document.getElementById('result').value = this.operand2
+        this.display.displayResult(this.calculator.operand2 += event.target.value)
         break
       case 'evaluate':
-        this.operand1 = event.target.value
-        this.state = 'get-operand1'
+        this.calculator.operand1 = event.target.value
+        this.calculator.setState('get-operand1')
         break
     }
   }
-
+  inputOperatorHandler = (event) => {
+    switch(this.calculator.getState()) {
+      case 'get-operand1':
+        this.calculator.setState('get-operator')
+        break
+      case 'get-operand2':
+        console.log(`this.calculator.getState()`, this.calculator.getState())
+        this.calculator.evaluate()
+        case 'get-operand2':
+        case 'evaluate':
+        console.log(`this.calculator.getState()`, this.calculator.getState())
+        this.calculator.operand1 = this.calculator.result
+        break
+    }
+    this.calculator.setState('get-operator')
+    this.calculator.operator = event.target.value
+    this.display.displayExpresion(this.calculator.getElements())
+  }
+  evaluateHandler = _ => {
+    if(this.calculator.getState() === 'get-operand2') {
+      this.calculator.evaluate()
+      this.display.displayExpresion(this.calculator.getElements(), 'full')
+      this.calculator.clearOperands()
+      this.calculator.setState('evaluate')
+    }
+  }
+  clearHandler = () => {
+    this.calculator.clearState()
+    this.display.clear()
+  }
+  
   enableControlls() {
     this.operatorButtons.forEach( operator => operator.classList.remove('inactive') )
     this.evaluateButton.classList.remove('inactive')

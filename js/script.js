@@ -1,5 +1,5 @@
 import Calculator from "./Calculator.js"
-import History from "./History.js"
+// import History from "./History.js"
 import Controlor from "./Controlor.js"
 import Display from "./Display.js"
 
