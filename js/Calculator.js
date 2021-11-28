@@ -15,7 +15,12 @@ export default class Calculator {
   }
   getState = () => this.state
   setState = (state) => this.state = state
-
+  setStateFromHistory = (stateHistory) => {
+    this.operand1 = stateHistory['operand1']
+    this.operand2 = stateHistory['operand2']
+    this.operator = stateHistory['operator']
+    this.result = stateHistory['result']
+  }
   getElements = () => {
     return {
       operand1: this.operand1,
@@ -26,22 +31,4 @@ export default class Calculator {
   }
 
   evaluate = () => this.result = eval(`${this.operand1} ${this.operator} ${this.operand2}`)
-
-  keyboardHandler = (event) => {
-    if (event.keyCode == 90 && event.ctrlKey) {
-      let historyState = this.history.undo()
-      if(historyState == undefined) return
-      // if(this.state != 'clear') this.saveStateToHistory()
-      this.setStateFromHistory(historyState)
-      this.displayFullExpresion()
-      console.log(`this.history`, this.history)
-    }
-    if (event.keyCode == 89 && event.ctrlKey) {
-      let historyState = this.history.redo()
-      if(historyState == undefined) return
-      this.setStateFromHistory(historyState)
-      this.displayFullExpresion()
-      console.log(`this.history`, this.history)
-    }
-  }
 }

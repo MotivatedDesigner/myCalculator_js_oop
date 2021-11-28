@@ -5,6 +5,7 @@ export default class Display{
   }
 
   displayResult = (value) => this.resultDisplay.value = value
+  getResult = () => this.resultDisplay.value
 
   displayExpresion = (data, type = 'half') => {
     const {operand1, operand2, operator, result} = data
