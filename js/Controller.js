@@ -1,16 +1,19 @@
-export default class Controlor{
-  constructor(calculator, display, history) {
+export default class Controller{
+  constructor(calculator, display, history, memory) {
     this.calculator = calculator
     this.display = display
     this.history = history
+    this.memory = memory
 
     this.operatorButtons = document.querySelectorAll('.operator')
     this.numberButtons = document.querySelectorAll('.number')
+    this.memoryButtons = document.querySelectorAll('.memory')
     this.dotButton = document.getElementById('dot')
     this.evaluateButton = document.getElementById('evaluate')
     this.clearButton = document.getElementById('clear')
 
     this.initialize()
+    this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
   }
 
   initialize = () => {
@@ -19,6 +22,9 @@ export default class Controlor{
     )
     this.numberButtons.forEach( 
       number => number.addEventListener('click', this.inputNumberHandler) 
+    )
+    this.memoryButtons.forEach( 
+      number => number.addEventListener('click', this.memoryHandler) 
     )
     this.evaluateButton.addEventListener('click', this.evaluateHandler) 
     this.dotButton.addEventListener('click', this.dotHandler) 
@@ -29,7 +35,7 @@ export default class Controlor{
   inputNumberHandler = (event) => {
     switch(this.calculator.getState()) {
       case 'clear':
-        this.enableControlls()
+        this.setButtonsState('active', ['operatorButtons','evaluateButton'])
         this.calculator.setState('get-operand1')
         this.display.displayResult(this.calculator.operand1 = event.target.value)
         break
@@ -46,6 +52,7 @@ export default class Controlor{
       case 'evaluate':
         this.calculator.setState('get-operand1')
         this.display.clear()
+        this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
         this.display.displayResult(this.calculator.operand1 = event.target.value)
         break
     }
@@ -61,6 +68,7 @@ export default class Controlor{
       case 'get-operand2':
       case 'evaluate':
       this.calculator.operand1 = this.calculator.result
+      this.dotButton.classList.remove('inactive')
       break
     }
     this.calculator.setState('get-operator')
@@ -79,13 +87,17 @@ export default class Controlor{
   }
   dotHandler = _ => {
     if( this.display.getResult().includes('.') ) return
+
     let state = this.calculator.getState()
-    if (state === 'get-operand1' || state === 'get-operand2')
-      this.display.displayResult(this.calculator[state.split('-')[1]] += '.')
+    if (state === 'get-operand1' || state === 'get-operand2') {
+      this.display.displayResult( this.calculator[state.split('-')[1]] += '.' )
+      this.dotButton.classList.add('inactive')
+    }
   }
   clearHandler = () => {  
     this.calculator.clearState()
     this.display.clear()
+    this.disableControlls()
   }
   keyboardHandler = (event) => {
     let historyState = undefined
@@ -100,13 +112,35 @@ export default class Controlor{
       this.display.displayResult(historyState.result)
     }
   }
-  
-  enableControlls() {
-    this.operatorButtons.forEach( operator => operator.classList.remove('inactive') )
-    this.evaluateButton.classList.remove('inactive')
+  memoryHandler = (event) => {
+    console.log(`event.target.value`, event.target.value)
+    switch (event.target.value) {
+      case 'MC':
+        this.memory.clear(); break
+      case 'MR':
+        this.memory.pop(); break
+      case 'MS':
+        this.memory.push(this.calculator.result); break
+      case 'M+':
+        this.memory.plus(); break
+    }
   }
-  disableControlls() {
-    this.operatorButtons.forEach( operator => operator.classList.add('inactive') )
-    this.evaluateButton.classList.add('inactive')
+  /**
+ * change the state of buttons [active, inactive].
+ * 
+ * @param {String} state the new state, 'active' | 'inactive'.
+ * @param {String[]} buttons array of targeted buttons.
+ */
+  setButtonsState = (state, buttons) => {
+    let action = state === 'active' ? 'remove' : 'add'
+    buttons.forEach( button => {
+      if( this[button] instanceof NodeList )
+      {
+        console.log(`this[button]`, this[button])
+        this[button].forEach( operator => operator.classList[action]('inactive') )
+      }
+      else 
+        this[button].classList[action]('inactive')
+    })
   }
 }
