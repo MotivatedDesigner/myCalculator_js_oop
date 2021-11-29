@@ -8,6 +8,7 @@ export default class Controller{
     this.operatorButtons = document.querySelectorAll('.operator')
     this.evaluateButton = document.getElementById('evaluate')
     this.dotButton = document.getElementById('dot')
+    this.popup = document.getElementById('popup')
 
     this.initialize()
     this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
@@ -28,6 +29,7 @@ export default class Controller{
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
     document.getElementById('back').addEventListener('click', this.backHandler) 
+    document.querySelector('.popup .content').addEventListener('click', this.removePopup) 
     document.addEventListener('keydown', this.keyboardHandler)
   }
 
@@ -93,7 +95,9 @@ export default class Controller{
       case 'M+':
         this.memory.plus(this.display.getResult()); break
       case 'MM':
-        this.memory.getAll()
+        // this.memory.getAll()
+        console.log('mmMMM')
+        this.popup.classList.add('show')
         break
     }
   }
@@ -154,6 +158,7 @@ export default class Controller{
       this.display.displayResult(historyState.result)
     }
   }
+  
 
   /**
  * change the state of buttons [active, inactive].

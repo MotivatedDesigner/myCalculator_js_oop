@@ -18,6 +18,7 @@ body{
 }
 
 .calculator{
+  overflow: hidden;
   width: 326px;
   height: 500px;
   margin: 150px auto 0;
@@ -60,7 +61,7 @@ body{
 .memory{
   display: flex;
   gap: 8px;
-  margin: 4px 6px;
+  margin: 2px 6px;
 }
 .memory input{
   border: none;
@@ -129,4 +130,24 @@ body{
   height: 100%;
   width: 100%;
   background-color: rgba(17, 17, 17, 0.582);
+}
+
+.popup{
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: bottom .3s ease-out;
+}
+.popup .content{
+  position: absolute;
+  bottom: 0;
+  height: 60%;
+  width: 100%;
+  background-color: rgba(61, 61, 61);
+}
+.show{
+  bottom: 0;
 }
