@@ -31,5 +31,9 @@ export default class Calculator {
     } 
   }
 
-  evaluate = () => this.result = eval(`${this.operand1} ${this.operator} ${this.operand2}`).toFixed(2)
+  evaluate = () => {
+    this.result = eval(`${this.operand1} ${this.operator} ${this.operand2}`).toPrecision(3)
+    const resultLength = this.result.length
+    if(this.result.slice(resultLength-2) === '.0') this.result = this.result.slice(0,resultLength-2)
+  }
 }
