@@ -31,5 +31,5 @@ export default class Calculator {
     } 
   }
 
-  evaluate = () => this.result = eval(`${this.operand1} ${this.operator} ${this.operand2}`)
+  evaluate = () => this.result = eval(`${this.operand1} ${this.operator} ${this.operand2}`).toFixed(2)
 }

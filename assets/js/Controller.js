@@ -10,7 +10,7 @@ export default class Controller{
     this.dotButton = document.getElementById('dot')
 
     this.initialize()
-    this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
+    this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
   }
 
   initialize = () => {
@@ -34,7 +34,7 @@ export default class Controller{
   numberHandler = (event) => {
     switch(this.calculator.getState()) {
       case 'clear':
-        this.setButtonsState('active', ['operatorButtons','evaluateButton'])
+        this.changeButtonsState('active', ['operatorButtons','evaluateButton'])
         this.calculator.setState('get-operand1')
         this.display.displayResult(this.calculator.operand1 = event.target.value)
         break
@@ -44,6 +44,7 @@ export default class Controller{
       case 'get-operator':
         this.calculator.setState('get-operand2')
         this.display.displayResult(this.calculator.operand2 = event.target.value)
+        this.changeButtonsState('active', ['evaluateButton'])
         break
       case 'get-operand2':
         this.display.displayResult(this.calculator.operand2 += event.target.value)
@@ -51,7 +52,6 @@ export default class Controller{
       case 'evaluate':
         this.calculator.setState('get-operand1')
         this.display.clear()
-        this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
         this.display.displayResult(this.calculator.operand1 = event.target.value)
         break
     }
@@ -59,17 +59,15 @@ export default class Controller{
   operatorHandler = (event) => {
     switch(this.calculator.getState()) {
       case 'get-operand1':
-        this.calculator.setState('get-operator')
-        break
+        this.calculator.setState('get-operator'); break
       case 'get-operand2':
         this.calculator.evaluate()
         this.history.store(this.calculator.getElements())
       case 'get-operand2':
       case 'evaluate':
-      this.calculator.operand1 = this.calculator.result
-      this.dotButton.classList.remove('inactive')
-      break
+      this.calculator.operand1 = this.calculator.result; break
     }
+    this.changeButtonsState('active', ['dotButton'])
     this.calculator.operator = event.target.closest('.operator').dataset.operator
     this.calculator.setState('get-operator')
     this.display.displayExpresion(this.calculator.getElements())
@@ -84,19 +82,42 @@ export default class Controller{
       this.calculator.setState('evaluate')
     }
   }
+  memoryHandler = (event) => {
+    switch (event.target.value) {
+      case 'MC':
+        this.memory.clear(); break
+      case 'MR':
+        this.display.displayResult(this.memory.peek()); break
+      case 'MS':
+        this.memory.push(this.display.getResult()); break
+      case 'M+':
+        this.memory.plus(this.display.getResult()); break
+      case 'MM':
+        this.memory.getAll()
+        break
+    }
+  }
   dotHandler = _ => {
     if( this.display.getResult().includes('.') ) return
 
     const state = this.calculator.getState()
     if (state === 'get-operand1' || state === 'get-operand2') {
       this.display.displayResult( this.calculator[state.split('-')[1]] += '.' )
-      this.setButtonsState('inactive', ['dotButton'])
+      this.changeButtonsState('inactive', ['dotButton'])
+    } else if(state === 'evaluate') {
+      this.display.displayResult( this.calculator.operand2 += '0.' )
+      this.calculator.setState('get-operand2')
+    } else if(state === 'clear') {
+      this.display.displayResult( this.calculator.operand1 += '0.' )
+      this.changeButtonsState('active',['operatorButtons'])
+      this.changeButtonsState('inactive', ['dotButton'])
+      this.calculator.setState('get-operand1')
     }
   }
   clearHandler = () => {  
     this.calculator.clearState()
     this.display.clear()
-    this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
+    this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
   }
   clearEntryHandler = () => {  
     const state = this.calculator.getState() 
@@ -113,11 +134,11 @@ export default class Controller{
         const operandLength = this.calculator[operandName].length
         
         if(operandLength <= 1 || !operandLength)
-          this.calculator[operandName] = 0
+          this.calculator[operandName] = ''
         else 
           this.calculator[operandName] = this.calculator[operandName].slice(0, operandLength-1)
 
-        this.display.displayResult(this.calculator[operandName])
+        this.display.displayResult(this.calculator[operandName] == '' ? 0 : this.calculator[operandName])
       }
   }
   keyboardHandler = (event) => {
@@ -133,18 +154,6 @@ export default class Controller{
       this.display.displayResult(historyState.result)
     }
   }
-  memoryHandler = (event) => {
-    switch (event.target.value) {
-      case 'MC':
-        this.memory.clear(); break
-      case 'MR':
-        this.display.displayResult(this.memory.peek()); break
-      case 'MS':
-        this.memory.push(this.display.getResult()); break
-      case 'M+':
-        this.memory.plus(this.display.getResult()); break
-    }
-  }
 
   /**
  * change the state of buttons [active, inactive].
@@ -152,7 +161,7 @@ export default class Controller{
  * @param {String} state the new state, 'active' | 'inactive'.
  * @param {String[]} buttons array of targeted buttons.
  */
-  setButtonsState = (state, buttons) => {
+  changeButtonsState = (state, buttons) => {
     const action = state === 'active' ? 'remove' : 'add'
     const disabled = state === 'active' ? false : true
     buttons.forEach( button => {

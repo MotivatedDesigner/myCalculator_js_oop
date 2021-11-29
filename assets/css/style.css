@@ -59,9 +59,8 @@ body{
 
 .memory{
   display: flex;
-  width: 96%;
   gap: 8px;
-  margin: 4px auto 0px;
+  margin: 4px 6px;
 }
 .memory input{
   border: none;
@@ -112,4 +111,22 @@ body{
 }
 .pink:hover{
   background: rgba(255, 43, 202, 0.719) !important;
+}
+
+.inactive{
+  position: relative;
+  background-color: rgba(17, 17, 17, 0.582) !important;
+  cursor: unset !important;
+}
+.inactive:hover{
+  background-color: rgba(17, 17, 17, 0.582) !important;
+}
+.inactive::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(17, 17, 17, 0.582);
 }
