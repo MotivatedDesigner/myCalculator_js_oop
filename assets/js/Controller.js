@@ -17,21 +17,21 @@ export default class Controller{
     this.evaluateButton.addEventListener('click', this.evaluateHandler) 
     this.dotButton.addEventListener('click', this.dotHandler) 
     this.operatorButtons.forEach( 
-      operator => operator.addEventListener('click', this.inputOperatorHandler) 
+      operator => operator.addEventListener('click', this.operatorHandler) 
     )
     document.querySelectorAll('.number').forEach( 
-      number => number.addEventListener('click', this.inputNumberHandler) 
+      number => number.addEventListener('click', this.numberHandler) 
     )
     document.querySelectorAll('.memory input').forEach( 
       number => number.addEventListener('click', this.memoryHandler)    
     )
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
-    document.getElementById('back').addEventListener('click', this.backHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
+    document.getElementById('back').addEventListener('click', this.backHandler) 
     document.addEventListener('keydown', this.keyboardHandler)
   }
 
-  inputNumberHandler = (event) => {
+  numberHandler = (event) => {
     switch(this.calculator.getState()) {
       case 'clear':
         this.setButtonsState('active', ['operatorButtons','evaluateButton'])
@@ -56,7 +56,7 @@ export default class Controller{
         break
     }
   }
-  inputOperatorHandler = (event) => {
+  operatorHandler = (event) => {
     switch(this.calculator.getState()) {
       case 'get-operand1':
         this.calculator.setState('get-operator')
@@ -70,8 +70,7 @@ export default class Controller{
       this.dotButton.classList.remove('inactive')
       break
     }
-    console.log(`event.target.dataset.type`, event.target.dataset.type)
-    this.calculator.operator = event.target.dataset.type
+    this.calculator.operator = event.target.closest('.operator').dataset.operator
     this.calculator.setState('get-operator')
     this.display.displayExpresion(this.calculator.getElements())
   }
@@ -155,11 +154,17 @@ export default class Controller{
  */
   setButtonsState = (state, buttons) => {
     const action = state === 'active' ? 'remove' : 'add'
+    const disabled = state === 'active' ? false : true
     buttons.forEach( button => {
       if( this[button] instanceof NodeList )
-        this[button].forEach( operator => operator.classList[action]('inactive') )
-      else 
+        this[button].forEach( operator => {
+          operator.classList[action]('inactive') 
+          operator.disabled = disabled
+        })
+      else {
         this[button].classList[action]('inactive')
+        this[button].disabled = disabled
+      }
     })
   }
 }

@@ -92,6 +92,7 @@ body{
   border: none;
   outline: none;
   height: 56px;
+  cursor: pointer;
 }
 .main input{
   font-size: 1.1rem;
