@@ -151,6 +151,10 @@ export default class Controller{
     if (event.keyCode == 90 && event.ctrlKey) historyState = this.history.undo()
     if (event.keyCode == 89 && event.ctrlKey) historyState = this.history.redo()
 
+    if(event.key === "Escape" && this.popup.classList.contains('show')) this.popup.classList.remove('show')
+
+    if(event.keyCode == 8) this.backHandler()
+
     if(historyState == undefined) return
     else {
       this.calculator.setStateFromHistory(historyState)
