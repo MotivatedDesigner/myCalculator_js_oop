@@ -8,7 +8,7 @@ export default class Controller{
     this.operatorButtons = document.querySelectorAll('.operator')
     this.evaluateButton = document.getElementById('evaluate')
     this.dotButton = document.getElementById('dot')
-    this.popup = document.getElementById('popup')
+    this.popup = document.querySelector('.popup')
 
     this.initialize()
     this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
@@ -29,7 +29,7 @@ export default class Controller{
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
     document.getElementById('back').addEventListener('click', this.backHandler) 
-    document.querySelector('.popup .content').addEventListener('click', this.removePopup) 
+    this.popup.addEventListener('click', this.removePopup) 
     document.addEventListener('keydown', this.keyboardHandler)
   }
 
@@ -158,7 +158,10 @@ export default class Controller{
       this.display.displayResult(historyState.result)
     }
   }
-  
+  removePopup = (event) => {
+    if(event.target.classList.contains('content')) return
+    event.target.classList.remove('show')
+  } 
 
   /**
  * change the state of buttons [active, inactive].
