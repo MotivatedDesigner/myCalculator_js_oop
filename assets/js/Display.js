@@ -4,9 +4,9 @@ export default class Display{
     this.expresionDisplay = document.getElementById('expresion')
   }
 
-  displayResult = (value) => this.resultDisplay.value = value
   getResult = () => this.resultDisplay.value
-
+  
+  displayResult = (value) => {console.log(value);this.resultDisplay.value = value}
   displayExpresion = (data, type = 'half') => {
     const {operand1, operand2, operator, result} = data
     if(type === 'half')

@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300&display=swap');
+
+*,*::after,*::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  background-color: transparent;
+  color: white;
+}
+
+body{
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  background: url(../img/oma.jpg);
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.calculator{
+  width: 326px;
+  height: 500px;
+  margin: 150px auto 0;
+
+  background: rgba(17, 17, 17, 0.5);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 16px );
+  -webkit-backdrop-filter: blur( 16px );
+  border-radius: 6px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.menu{
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+.menu svg{
+  height: 22px;
+}
+
+#expresion, #result{
+  outline: none;
+  border: none;
+  direction: rtl;
+  width: 100%;
+  padding: 0 12px;
+}
+#expresion{
+  font-size: 1.2rem;
+  color: #cfcfcf;
+  height: 28px;
+  margin: 3px 0;
+}
+#result{
+  font-size: 3rem;
+  height: 80px;
+}
+
+.memory{
+  display: flex;
+  width: 96%;
+  gap: 8px;
+  margin: 4px auto 0px;
+}
+.memory input{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: .6rem .82rem;
+  font-weight: 100;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.hover1 input:hover, .hover1 button:hover{
+  background-color: #bdbdbd7e;
+}
+
+.main{
+  padding: 6px;
+  gap: 2px;
+  display: grid;
+  grid-template-rows: repeat(4,1fr);
+  grid-template-columns: repeat(4,1fr);
+}
+.main svg{
+  margin-top: 7px;
+  height: 20px;
+  fill: white;
+}
+.main input,.main  button{
+  border: none;
+  outline: none;
+  height: 56px;
+}
+.main input{
+  font-size: 1.1rem;
+}
+#dot{
+  font-size: 1.4rem;
+}
+
+.black-500{
+  background: rgba(17, 17, 17, 0.671);
+}
+.black-300{
+  background: rgba(17, 17, 17, 0.452);
+}
+.pink{
+  background: rgba(175, 0, 131, 0.5);
+}
+.pink:hover{
+  background: rgba(255, 43, 202, 0.719) !important;
+}

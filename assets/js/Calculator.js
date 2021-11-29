@@ -1,5 +1,5 @@
 export default class Calculator {
-  constructor(history) {
+  constructor() {
     this.clearState()
   } 
 
@@ -21,6 +21,7 @@ export default class Calculator {
     this.operator = stateHistory['operator']
     this.result = stateHistory['result']
   }
+
   getElements = () => {
     return {
       operand1: this.operand1,
