@@ -43,11 +43,12 @@ body{
 #expresion, #result{
   outline: none;
   border: none;
-  direction: rtl;
+  text-align: right; 
   width: 100%;
   padding: 0 12px;
 }
 #expresion{
+  direction: rtl;
   font-size: 1.2rem;
   color: #cfcfcf;
   height: 28px;
@@ -151,3 +152,15 @@ body{
 .show{
   bottom: 0;
 }
+
+.backspace{
+  animation-name: backspaceAnimation;
+  animation-duration: .1s;
+}
+@keyframes backspaceAnimation {
+to {background: rgba(255, 43, 202, 0.719);}
+}
+
+/* .memory-item{
+
+} */

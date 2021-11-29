@@ -9,6 +9,7 @@ export default class Controller{
     this.evaluateButton = document.getElementById('evaluate')
     this.dotButton = document.getElementById('dot')
     this.popup = document.querySelector('.popup')
+    this.backspaceKey =  document.getElementById('back')
 
     this.initialize()
     this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
@@ -17,6 +18,8 @@ export default class Controller{
   initialize = () => {
     this.evaluateButton.addEventListener('click', this.evaluateHandler) 
     this.dotButton.addEventListener('click', this.dotHandler) 
+    this.popup.addEventListener('click', this.removePopup) 
+    this.backspaceKey.addEventListener('click', this.backHandler) 
     this.operatorButtons.forEach( 
       operator => operator.addEventListener('click', this.operatorHandler) 
     )
@@ -28,8 +31,6 @@ export default class Controller{
     )
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
-    document.getElementById('back').addEventListener('click', this.backHandler) 
-    this.popup.addEventListener('click', this.removePopup) 
     document.addEventListener('keydown', this.keyboardHandler)
   }
 
@@ -95,9 +96,16 @@ export default class Controller{
       case 'M+':
         this.memory.plus(this.display.getResult()); break
       case 'MM':
-        // this.memory.getAll()
-        console.log('mmMMM')
         this.popup.classList.add('show')
+        this.popup.querySelector('.content').innerHTML = this.memory.getAll().map( (el, i) => 
+          `<div class="memory-item">
+            <p>${el}</p>
+            <div class="memory-control">
+            </div>
+          </div>`  
+        )
+        console.log('mmMMM',this.memory.getAll())
+        
         break
     }
   }
@@ -153,7 +161,11 @@ export default class Controller{
 
     if(event.key === "Escape" && this.popup.classList.contains('show')) this.popup.classList.remove('show')
 
-    if(event.keyCode == 8) this.backHandler()
+    if(event.keyCode == 8) {
+      this.backspaceKey.classList.add('backspace')
+      this.backHandler()
+      setTimeout(() => this.backspaceKey.classList.remove('backspace'), 100)
+    }
 
     if(historyState == undefined) return
     else {

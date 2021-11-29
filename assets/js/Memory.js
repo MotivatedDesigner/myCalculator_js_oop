@@ -11,5 +11,7 @@ export default class Memory {
 
 	minus = (value, index) => this.records[ index ?? this.records.length-1 ] -= parseFloat(value)
 
+	getAll = () => this.records
+
 	clear = (index) => index ? this.records.splice(index, index+1) : this.records.pop()
 }
