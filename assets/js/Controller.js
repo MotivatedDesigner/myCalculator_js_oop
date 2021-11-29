@@ -88,7 +88,7 @@ export default class Controller{
   dotHandler = _ => {
     if( this.display.getResult().includes('.') ) return
 
-    let state = this.calculator.getState()
+    const state = this.calculator.getState()
     if (state === 'get-operand1' || state === 'get-operand2') {
       this.display.displayResult( this.calculator[state.split('-')[1]] += '.' )
       this.setButtonsState('inactive', ['dotButton'])
@@ -100,34 +100,26 @@ export default class Controller{
     this.setButtonsState('inactive', ['operatorButtons','evaluateButton'])
   }
   clearEntryHandler = () => {  
-    let state = this.calculator.getState() 
+    const state = this.calculator.getState() 
     if(state === 'get-operand1' || state === 'get-operand2')
     {
       this.display.displayResult( this.calculator[ state.split('-')[1] ] = 0 )
       this.calculator.setState(state === 'get-operand1' ? 'clear' : 'get-operator')
     }
-      // console.log(`operand.slice(0, operand.lenght-1)`, operand.slice(0, operand.lenght-1) )
-      // console.log(`this.calculator[state.split('-')[1]] `, this.calculator[state.split('-')[1]])
-      // // this.calculator[operand] = this.calculator[operand]
   }
   backHandler = () => {  
-    let state = this.calculator.getState() 
-    let operand = this.calculator[ state.split('-')[1] ]
-    if(
-        (state === 'get-operand1' || 
-        state === 'get-operand2') 
-        && operand != 0
-      )
-      {
+    const state = this.calculator.getState() 
+    if(state === 'get-operand1' || state === 'get-operand2') {
+        const operandName = state.split('-')[1]
+        const operandLength = this.calculator[operandName].length
         
-        console.log('op',operand = operand.slice(0, operand.length-1))
-        this.display.displayResult(operand)
-      }
+        if(operandLength <= 1 || !operandLength)
+          this.calculator[operandName] = 0
+        else 
+          this.calculator[operandName] = this.calculator[operandName].slice(0, operandLength-1)
 
-      this.display.displayResult( )
-      // console.log(`operand.slice(0, operand.lenght-1)`, operand.slice(0, operand.lenght-1) )
-      // console.log(`this.calculator[state.split('-')[1]] `, this.calculator[state.split('-')[1]])
-      // // this.calculator[operand] = this.calculator[operand]
+        this.display.displayResult(this.calculator[operandName])
+      }
   }
   keyboardHandler = (event) => {
     let historyState = undefined
@@ -162,7 +154,7 @@ export default class Controller{
  * @param {String[]} buttons array of targeted buttons.
  */
   setButtonsState = (state, buttons) => {
-    let action = state === 'active' ? 'remove' : 'add'
+    const action = state === 'active' ? 'remove' : 'add'
     buttons.forEach( button => {
       if( this[button] instanceof NodeList )
         this[button].forEach( operator => operator.classList[action]('inactive') )
