@@ -76,9 +76,11 @@ body{
 }
 .hover1 input:hover, .hover1 button:hover{
   background-color: #bdbdbd7e;
+  cursor: pointer;
 }
 .hover-svg svg:hover{
   background-color: #bdbdbd7e;
+  cursor: pointer;
 }
 
 .main{
@@ -160,6 +162,7 @@ body{
 }
 .popup .trash{
   background-color: rgba(61, 61, 61);
+  min-height: 46px;
 }
 .popup .trash svg{
   height: 34px;
