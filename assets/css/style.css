@@ -32,7 +32,7 @@ body{
 }
 
 .menu{
-  padding: 12px;
+  padding: 8px;
   display: flex;
   justify-content: space-between;
 }
@@ -54,7 +54,6 @@ body{
   font-size: 1.2rem;
   color: #cfcfcf;
   height: 28px;
-  margin: 3px 0;
 }
 #result{
   font-size: 3rem;
@@ -75,7 +74,10 @@ body{
   font-size: .8rem;
   cursor: pointer;
 }
-.hover1 input:hover, .hover1 button:hover, .hover1 svg:hover{
+.hover1 input:hover, .hover1 button:hover{
+  background-color: #bdbdbd7e;
+}
+.hover-svg svg:hover{
   background-color: #bdbdbd7e;
 }
 
@@ -136,6 +138,9 @@ body{
 }
 
 .popup{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
   position: absolute;
   bottom: -100%;
   left: 0;
@@ -145,21 +150,21 @@ body{
   transition: bottom .3s ease-out;
 }
 .popup .content{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   position: absolute;
-  bottom: 0;
-  height: 60%;
+  bottom: 46px;
+  height: 50%;
   width: 100%;
   padding-top: 4px;
   background-color: rgba(61, 61, 61);
   overflow: auto;
 }
-.popup .content svg{
+.popup .trash{
+  background-color: rgba(61, 61, 61);
+}
+.popup .trash svg{
   height: 34px;
-  align-self: flex-end;
-  margin: 0 8px 8px 0;
+  float: right;
+  margin: 8px 8px 8px 0;
   padding: .4rem .4rem;
 }
 
@@ -195,6 +200,17 @@ to {background: rgba(255, 43, 202, 0.719);}
 }
 .memory-control input{
   padding: .2rem .4rem !important;
+}
+
+.history-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 8px 8px 0 0;
+}
+.history-item p{
+  color: #b8b8b8;
+  font-size: .9rem;
 }
 
 /* scroll */
