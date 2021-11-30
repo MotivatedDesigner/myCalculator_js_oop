@@ -37,9 +37,9 @@ body{
   justify-content: space-between;
 }
 .menu svg{
-  height: 32px;
+  height: 36px;
   cursor: pointer;
-  padding: 4px;
+  padding: .4rem .4rem;
 }
 
 #expresion, #result{
@@ -145,6 +145,9 @@ body{
   transition: bottom .3s ease-out;
 }
 .popup .content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   position: absolute;
   bottom: 0;
   height: 60%;
@@ -153,6 +156,13 @@ body{
   background-color: rgba(61, 61, 61);
   overflow: auto;
 }
+.popup .content svg{
+  height: 34px;
+  align-self: flex-end;
+  margin: 0 8px 8px 0;
+  padding: .4rem .4rem;
+}
+
 .show{
   bottom: 0;
 }
@@ -172,7 +182,7 @@ to {background: rgba(255, 43, 202, 0.719);}
 .memory-item:hover .memory-control{
   opacity: 1;
 }
-.memory-item:hover{
+.hover2:hover{
   background-color: #5050507e;
 }
 

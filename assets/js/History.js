@@ -3,11 +3,11 @@ export default class History {
     this.undoStack = []
     this.redoStack = []
   }
-  store(state) {
+  store = (state) => {
     this.undoStack.push(state)
     this.redoStack = []
   }
-  undo() {
+  undo = _=> {
     if(this.undoStack.length > 0) 
     {
       let state = this.undoStack.pop()
@@ -15,7 +15,7 @@ export default class History {
       return state
     }
   }
-  redo() {
+  redo = _=> {
     if(this.redoStack.length > 0) 
     {
       let state = this.redoStack.pop()
@@ -23,5 +23,9 @@ export default class History {
       return state
     }
   }
-  getAll = () => console.log([...this.undoStack,...this.redoStack])
+  clear = () => {
+    this.undoStack = []
+    this.redoStack = []
+  }
+  getAll = _=> [...this.undoStack,...this.redoStack]
 } 
