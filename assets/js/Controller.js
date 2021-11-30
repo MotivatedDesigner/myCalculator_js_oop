@@ -98,17 +98,19 @@ export default class Controller{
       case 'MM':
         this.popup.classList.add('show')
         this.popup.querySelector('.content').innerHTML = this.memory.getAll().map( (el, i) => 
-          `<div class="memory-item">
-            <p>${el}</p>
-            <div class="memory-control">
+          `<div class="memory-item" >
+            <h1>${el}</h1>
+            <div class="memory-control" data-index="${i}">
+              <input class="pink" type="button" value="-M">
+              <input class="pink" type="button" value="+M">
+              <input class="pink" type="button" value="MC">
             </div>
           </div>`  
-        )
-        console.log('mmMMM',this.memory.getAll())
-        
+        ).join(' ')        
         break
     }
   }
+  me = () => console.log(`mmm`)
   dotHandler = _ => {
     if( this.display.getResult().includes('.') ) return
 
