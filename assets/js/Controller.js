@@ -30,6 +30,7 @@ export default class Controller{
       number => number.addEventListener('click', this.memoryHandler)    
     )
     document.querySelector('.popup .content').addEventListener('click', this.popupHandler) 
+    document.getElementById('history').addEventListener('click', this.historyHandler) 
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
     document.addEventListener('keydown', this.keyboardHandler)
@@ -175,6 +176,20 @@ export default class Controller{
             </div>
           </div>`  
         ).reverse().join(' ') 
+  }
+  historyHandler = () => {
+    this.popup.classList.add('show')
+    this.history.getAll()
+    // this.popup.querySelector('.content').innerHTML = this.history.getAll().map( (el, i) => 
+    //   `<div class="memory-item" >
+    //     <h1>${el}</h1>
+    //     <div class="memory-control" data-index="${i}">
+    //       <input class="pink" type="button" value="MC">
+    //       <input class="pink" type="button" value="M+">
+    //       <input class="pink" type="button" value="M-">
+    //     </div>
+    //   </div>`  
+    // ).reverse().join(' ')
   }
   keyboardHandler = (event) => {
     let historyState = undefined

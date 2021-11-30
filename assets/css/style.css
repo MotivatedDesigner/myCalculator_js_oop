@@ -37,7 +37,9 @@ body{
   justify-content: space-between;
 }
 .menu svg{
-  height: 22px;
+  height: 32px;
+  cursor: pointer;
+  padding: 4px;
 }
 
 #expresion, #result{
@@ -73,7 +75,7 @@ body{
   font-size: .8rem;
   cursor: pointer;
 }
-.hover1 input:hover, .hover1 button:hover{
+.hover1 input:hover, .hover1 button:hover, .hover1 svg:hover{
   background-color: #bdbdbd7e;
 }
 

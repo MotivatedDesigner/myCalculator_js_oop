@@ -23,4 +23,5 @@ export default class History {
       return state
     }
   }
+  getAll = () => console.log([...this.undoStack,...this.redoStack])
 } 
