@@ -29,6 +29,7 @@ export default class Controller{
     document.querySelectorAll('.memory input').forEach( 
       number => number.addEventListener('click', this.memoryHandler)    
     )
+    document.querySelector('.popup .content').addEventListener('click', this.popupHandler) 
     document.getElementById('clear').addEventListener('click', this.clearHandler) 
     document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
     document.addEventListener('keydown', this.keyboardHandler)
@@ -85,32 +86,33 @@ export default class Controller{
       this.calculator.setState('evaluate')
     }
   }
-  memoryHandler = (event) => {
-    switch (event.target.value) {
+  memoryHandler = ( {target} ) => {
+    switch (target.value) {
       case 'MC':
-        this.memory.clear(); break
+        this.memory.clear(target.index); break
       case 'MR':
         this.display.displayResult(this.memory.peek()); break
       case 'MS':
         this.memory.push(this.display.getResult()); break
       case 'M+':
-        this.memory.plus(this.display.getResult()); break
+        this.memory.plus(this.display.getResult(), target.index); break
+      case 'M-':
+        this.memory.minus(this.display.getResult(), target.index); break
       case 'MM':
         this.popup.classList.add('show')
         this.popup.querySelector('.content').innerHTML = this.memory.getAll().map( (el, i) => 
           `<div class="memory-item" >
             <h1>${el}</h1>
             <div class="memory-control" data-index="${i}">
-              <input class="pink" type="button" value="-M">
-              <input class="pink" type="button" value="+M">
               <input class="pink" type="button" value="MC">
+              <input class="pink" type="button" value="M+">
+              <input class="pink" type="button" value="M-">
             </div>
           </div>`  
-        ).join(' ')        
+        ).reverse().join(' ')        
         break
     }
   }
-  me = () => console.log(`mmm`)
   dotHandler = _ => {
     if( this.display.getResult().includes('.') ) return
 
@@ -154,6 +156,25 @@ export default class Controller{
 
         this.display.displayResult(this.calculator[operandName] == '' ? 0 : this.calculator[operandName])
       }
+  }
+  popupHandler = (event) => {
+    if(event.target.tagName != 'INPUT') return
+    this.memoryHandler({
+      target: { 
+        value: event.target.value,
+        index: event.target.closest('.memory-control').dataset.index
+      }
+    })
+    this.popup.querySelector('.content').innerHTML = this.memory.getAll().map( (el, i) => 
+          `<div class="memory-item" >
+            <h1>${el}</h1>
+            <div class="memory-control" data-index="${i}">
+              <input class="pink" type="button" value="MC">
+              <input class="pink" type="button" value="M+">
+              <input class="pink" type="button" value="M-">
+            </div>
+          </div>`  
+        ).reverse().join(' ') 
   }
   keyboardHandler = (event) => {
     let historyState = undefined

@@ -147,7 +147,9 @@ body{
   bottom: 0;
   height: 60%;
   width: 100%;
+  padding-top: 4px;
   background-color: rgba(61, 61, 61);
+  overflow: auto;
 }
 .show{
   bottom: 0;
@@ -162,21 +164,22 @@ to {background: rgba(255, 43, 202, 0.719);}
 }
 
 .memory-item{
-  direction: rtl;
+  text-align: right;
   padding: 0 10px;
-  margin-bottom: -24px;
 }
 .memory-item:hover .memory-control{
   opacity: 1;
+}
+.memory-item:hover{
+  background-color: #5050507e;
 }
 
 .memory-control{
   display: flex;
   opacity: 0;
   transition: opacity .3s ease-in-out;
-  text-align: left;
   gap: 4px;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 .memory-control input{
   padding: .2rem .4rem !important;
