@@ -177,7 +177,7 @@ body{
 
 .backspace{
   animation-name: backspaceAnimation;
-  animation-duration: .1s;
+  animation-duration: .2s;
 }
 @keyframes backspaceAnimation {
 to {background: rgba(255, 43, 202, 0.719);}

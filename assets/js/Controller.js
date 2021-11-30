@@ -9,7 +9,9 @@ export default class Controller{
     this.evaluateButton = document.getElementById('evaluate')
     this.dotButton = document.getElementById('dot')
     this.popup = document.querySelector('.popup')
-    this.backspaceKey =  document.getElementById('back')
+    this.backspaceButton =  document.getElementById('back')
+    this.clearEntryBytton = document.getElementById('clear-entry')
+    this.clearButton = document.getElementById('clear')
 
     this.initialize()
     this.changeButtonsState('inactive', ['operatorButtons','evaluateButton'])
@@ -19,7 +21,9 @@ export default class Controller{
     this.evaluateButton.addEventListener('click', this.evaluateHandler) 
     this.dotButton.addEventListener('click', this.dotHandler) 
     this.popup.addEventListener('click', this.popupHandler) 
-    this.backspaceKey.addEventListener('click', this.backHandler) 
+    this.backspaceButton.addEventListener('click', this.backHandler) 
+    this.clearButton.addEventListener('click', this.clearHandler) 
+    this.clearEntryBytton.addEventListener('click', this.clearEntryHandler) 
     this.operatorButtons.forEach( 
       operator => operator.addEventListener('click', this.operatorHandler) 
     )
@@ -30,8 +34,6 @@ export default class Controller{
       number => number.addEventListener('click', this.memoryHandler)    
     )
     document.getElementById('history').addEventListener('click', this.historyHandler) 
-    document.getElementById('clear').addEventListener('click', this.clearHandler) 
-    document.getElementById('clear-entry').addEventListener('click', this.clearEntryHandler) 
     document.addEventListener('keydown', this.keyboardHandler)
   }
 
@@ -179,10 +181,23 @@ export default class Controller{
 
     if(event.key === "Escape" && this.popup.classList.contains('show')) this.popup.classList.remove('show')
 
+    if(event.keyCode == 46) {
+      this.clearHandler()
+      this.clearButton.classList.add('backspace')
+      setTimeout(() => this.clearButton.classList.remove('backspace'), 200)
+    }
+
     if(event.keyCode == 8) {
-      this.backspaceKey.classList.add('backspace')
-      this.backHandler()
-      setTimeout(() => this.backspaceKey.classList.remove('backspace'), 100)
+      if(event.ctrlKey) {
+        this.clearEntryHandler()
+        this.clearEntryBytton.classList.add('backspace')
+        setTimeout(() => this.clearEntryBytton.classList.remove('backspace'), 200)
+      }
+      else {
+        this.backHandler()
+        this.backspaceButton.classList.add('backspace')
+        setTimeout(() => this.backspaceButton.classList.remove('backspace'), 200)
+      }
     }
 
     if(historyState == undefined) return
