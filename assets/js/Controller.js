@@ -93,6 +93,7 @@ export default class Controller{
       case 'MC':
         this.memory.clear(target.index); break
       case 'MR':
+        this.display.clear()
         this.display.displayResult(this.memory.peek()); break
       case 'MS':
         this.memory.push(this.display.getResult()); break
@@ -151,6 +152,12 @@ export default class Controller{
       }
   }
   popupHandler = (event) => {
+    if(event.target.closest('.history-item')) {
+      const state = this.history.getAll()[event.target.closest('.history-item').dataset.index]
+      this.calculator.setStateFromHistory(state)
+      this.display.displayExpresion(state, 'full')
+      this.display.displayResult(state.result)
+    }
     if(event.target.classList.contains('popup'))
       event.target.classList.remove('show')
     else if(event.target.tagName === 'svg') {
